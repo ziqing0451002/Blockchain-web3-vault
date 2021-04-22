@@ -22,8 +22,8 @@ public class VaultService {
 //    }
 
     public Map<String, Object> getSecret(String accountAddress) throws IOException {
-        //0422_Github_TEST
-        String TEST = "GITHUB";
+        //0422_Github_TEST2
+        String TEST = "GITHUB_TEST_2";
 
         Map<String, Object> jsonMap=null;
         String command =
