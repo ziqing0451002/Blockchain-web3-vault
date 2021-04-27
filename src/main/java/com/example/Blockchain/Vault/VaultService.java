@@ -17,7 +17,6 @@ public class VaultService {
     public String VAULT_TOKEN;
 
     public Map<String, Object> getSecret(String accountAddress) throws IOException {
-
         Map<String, Object> jsonMap=null;
         String command =
                 "curl -H \"X-Vault-Token: "+ VAULT_TOKEN + "\"  -X GET http://127.0.0.1:8200/v1/secret/data/" + accountAddress;
@@ -28,7 +27,6 @@ public class VaultService {
         jsonMap = mapper.readValue(inputStream, Map.class);
         inputStream.close();
         process.destroy();
-        System.out.println("=======getSecret_Did========");
         return jsonMap;
     }
 

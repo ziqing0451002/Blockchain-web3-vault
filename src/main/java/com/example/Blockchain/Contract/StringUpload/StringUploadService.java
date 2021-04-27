@@ -2,6 +2,9 @@ package com.example.Blockchain.Contract.StringUpload;
 
 import com.example.Blockchain.Vault.VaultService;
 import com.example.Blockchain.web3Info.ContractProperties;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -14,7 +17,11 @@ import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.TransactionManager;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import org.json.JSONObject;
+
 
 
 public class StringUploadService {
@@ -31,14 +38,13 @@ public class StringUploadService {
         this.config = config;
         this.vaultService = vaultService;
     }
-    private StringUpload loadContract(String msgSenderAddress) throws IOException, CipherException {
+    private StringUpload loadContract(String msgSenderAddress) throws IOException, CipherException, JSONException {
         //取得呼叫合約者私鑰
         Map<String, Object> secretJson = vaultService.getSecret(msgSenderAddress);
-        System.out.println("=================================");
-        System.out.println(secretJson);
-        System.out.println("=================================");
+        JSONObject datasJson = new JSONObject(secretJson);
+        String accountPK = String.valueOf(datasJson.getJSONObject("data").getJSONObject("data").getString("ACCOUNT_PK"));
 
-        Credentials credentials = Credentials.create("c3bf6fce044068f95715af35af96fcc7d7533bcb9c6dc38a31ebd34341843ffc");
+        Credentials credentials = Credentials.create(accountPK);
         return StringUpload.load(contractAddress, quorum, credentials, config.gas());
     }
 
@@ -55,7 +61,7 @@ public class StringUploadService {
         return stringUpload.getStringInfo().send();
     }
 
-    public TransactionReceipt setStringInfo( String stringInput,String msgSenderAddress) throws Exception {
+    public TransactionReceipt setStringInfo( String msgSenderAddress,String stringInput) throws Exception {
         StringUpload stringUpload = loadContract(msgSenderAddress);
         TransactionReceipt transactionReceipt = stringUpload.setStringInfo(stringInput).send();
         return transactionReceipt;

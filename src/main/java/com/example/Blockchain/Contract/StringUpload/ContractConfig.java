@@ -26,6 +26,7 @@ public class ContractConfig {
 
     @Autowired
     private ContractProperties config;
+    @Autowired
     private VaultService vaultService;
 
     @Bean
