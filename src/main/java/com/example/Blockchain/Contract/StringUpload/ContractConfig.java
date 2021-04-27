@@ -1,4 +1,5 @@
 package com.example.Blockchain.Contract.StringUpload;
+import com.example.Blockchain.Vault.VaultService;
 
 import com.example.Blockchain.web3Info.ContractProperties;
 import okhttp3.OkHttpClient;
@@ -9,28 +10,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
-import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.quorum.Quorum;
-import org.web3j.tx.ClientTransactionManager;
-import org.web3j.tx.TransactionManager;
-
-import java.io.IOException;
 
 @Configuration
 public class ContractConfig {
     private static final Logger LOG = LoggerFactory.getLogger(ContractConfig.class);
 
-    @Value("${lottery.contract.owner-address}")
-    private String ownerAddress;
+//    @Value("${lottery.contract.owner-address}")
+//    private String ownerAddress;
 
     @Value("${web3j.client-address}")
     private String clientAddress;
 
     @Autowired
     private ContractProperties config;
+    private VaultService vaultService;
 
     @Bean
     public Quorum Quorum() {
@@ -44,12 +40,11 @@ public class ContractConfig {
             StringUpload stringUpload = deployContract(quorum);
             return initShopService(stringUpload.getContractAddress(), quorum);
         }
-
         return initShopService(contractAddress, quorum);
     }
 
     private StringUploadService initShopService(String contractAddress, Quorum quorum) {
-        return new StringUploadService(contractAddress, quorum, config);
+        return new StringUploadService(contractAddress, quorum, config, vaultService);
     }
 
     private StringUpload deployContract(Quorum quorum) throws Exception {
@@ -60,9 +55,9 @@ public class ContractConfig {
         return contract;
     }
 
-    private TransactionManager txManager(Quorum quorum) {
-        return new ClientTransactionManager(quorum, ownerAddress);
-    }
+//    private TransactionManager txManager(Quorum quorum) {
+//        return new ClientTransactionManager(quorum, ownerAddress);
+//    }
 
 
 }

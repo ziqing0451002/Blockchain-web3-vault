@@ -15,15 +15,8 @@ import org.json.JSONObject;
 public class VaultService {
     @Value("${spring.cloud.vault.token}")
     public String VAULT_TOKEN;
-//    private String VAULT_TOKEN = "s.nxmar6YiKIoeYXeVVzlMOexm";
-
-//    public VaultService(String vault_token) {
-//        VAULT_TOKEN = vault_token;
-//    }
 
     public Map<String, Object> getSecret(String accountAddress) throws IOException {
-        //0422_Github_TEST2
-        String TEST = "GITHUB_TEST_2";
 
         Map<String, Object> jsonMap=null;
         String command =
@@ -35,6 +28,7 @@ public class VaultService {
         jsonMap = mapper.readValue(inputStream, Map.class);
         inputStream.close();
         process.destroy();
+        System.out.println("=======getSecret_Did========");
         return jsonMap;
     }
 

@@ -10,11 +10,11 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 @RestController
 public class SrtingUploadController {
 
-    @Value("${lottery.contract.owner-address}")
-    private String ownerAddress;
-
-    @Value("${lottery.contract.test-address}")
-    private String testAddress;
+//    @Value("${lottery.contract.owner-address}")
+//    private String ownerAddress;
+//
+//    @Value("${lottery.contract.test-address}")
+//    private String testAddress;
 
     private final StringUploadService stringUploadService;
 
@@ -28,15 +28,16 @@ public class SrtingUploadController {
     }
 
     @GetMapping("/StringUpload/getString")
-    public String getStringInfo() throws Exception {
-        return stringUploadService.getStringInfo();
+    public String getStringInfo(@RequestParam String msgSenderAddress) throws Exception {
+        return stringUploadService.getStringInfo(msgSenderAddress);
     }
 
     @PostMapping("/StringUpload/setString")
     public TransactionReceipt setStringInfo(
+            @RequestParam String msgSenderAddress,
             @RequestBody String stringInput
     ) throws Exception {
-        return stringUploadService.setStringInfo(stringInput);
+        return stringUploadService.setStringInfo(msgSenderAddress,stringInput);
     }
 
 
