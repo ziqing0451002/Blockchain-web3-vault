@@ -1,9 +1,10 @@
 package com.example.Blockchain.UserInfo;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.sql.Timestamp;
+
+
+import javax.persistence.*;
 
 // 宣告為實體(@Entity)
 @Entity
@@ -25,20 +26,34 @@ public class UserInfo {
     // 可再新增編自動編號功能(或在SQL中做)
     // 主鍵由數據庫自動維護(AUTO_INCREMENT)
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
-//    private Long id;
+//    @Column(name = "rowNum")
 
+//    private Integer rowNum;
     private String userAccount;
     private String userPassword;
     private String userAddress;
+    private String serviceName;
+    private String agenciesName;
+    private String status;
+    private Timestamp createdTime;
+    private Timestamp updatedTime;
+
+
 
     public UserInfo(){
 
     }
-    public UserInfo(String userAccount,String userPassword,String userAddress){
+
+    public UserInfo(String userAccount, String userPassword, String userAddress, String serviceName, String agenciesName, String status, Timestamp createdTime, Timestamp updatedTime){
+//        this.rowNum = rowNum;
         this.userAccount = userAccount;
         this.userPassword = userPassword;
         this.userAddress = userAddress;
+        this.serviceName = serviceName;
+        this.agenciesName = agenciesName;
+        this.status = status;
+        this.createdTime = createdTime;
+        this.updatedTime = updatedTime;
     }
 
     public String getUserAccount() {
@@ -64,6 +79,57 @@ public class UserInfo {
     public void setUserAddress(String userAddress) {
         this.userAddress = userAddress;
     }
+
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getAgenciesName() {
+        return agenciesName;
+    }
+
+    public void setAgenciesName(String agenciesName) {
+        this.agenciesName = agenciesName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
+    public Timestamp getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Timestamp createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public Timestamp getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(Timestamp updatedTime) {
+        this.updatedTime = updatedTime;
+    }
+
+
+//    public Integer getRowNum() {
+//        return rowNum;
+//    }
+//
+//    public void setRowNum(Integer rowNum) {
+//        this.rowNum = rowNum;
+//    }
 
     @Override
     public String toString(){

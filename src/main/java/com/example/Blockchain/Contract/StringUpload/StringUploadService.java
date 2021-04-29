@@ -1,6 +1,7 @@
 package com.example.Blockchain.Contract.StringUpload;
 
 import com.example.Blockchain.Vault.VaultService;
+import com.example.Blockchain.UserInfo.UserInfoService;
 import com.example.Blockchain.web3Info.ContractProperties;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,15 +29,17 @@ public class StringUploadService {
     private final String contractAddress;
     private final Quorum quorum;
     private final ContractProperties config;
+    private final UserInfoService userInfoService;
     private VaultService vaultService;
     private String pwd = "ziqing4884"; //若透過讀取keystore登入身分，則需要密碼
     private String keystore = "c3bf6fce044068f95715af35af96fcc7d7533bcb9c6dc38a31ebd34341843ffc";
 
-    public StringUploadService(String contractAddress, Quorum quorum, ContractProperties config ,VaultService vaultService) {
+    public StringUploadService(String contractAddress, Quorum quorum, ContractProperties config ,VaultService vaultService, UserInfoService userInfoService) {
         this.contractAddress = contractAddress;
         this.quorum = quorum;
         this.config = config;
         this.vaultService = vaultService;
+        this.userInfoService = userInfoService;
     }
     private StringUpload loadContract(String msgSenderAddress) throws IOException, CipherException, JSONException {
         //取得呼叫合約者私鑰
@@ -61,7 +64,8 @@ public class StringUploadService {
         return stringUpload.getStringInfo().send();
     }
 
-    public TransactionReceipt setStringInfo( String msgSenderAddress,String stringInput) throws Exception {
+    public TransactionReceipt setStringInfo( String userAccount, String userPassword,String stringInput) throws Exception {
+        String msgSenderAddress = userInfoService.exchangeAddress(userAccount, userPassword);
         StringUpload stringUpload = loadContract(msgSenderAddress);
         TransactionReceipt transactionReceipt = stringUpload.setStringInfo(stringInput).send();
         return transactionReceipt;

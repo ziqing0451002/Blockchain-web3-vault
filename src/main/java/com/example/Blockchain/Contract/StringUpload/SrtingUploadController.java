@@ -28,16 +28,17 @@ public class SrtingUploadController {
     }
 
     @GetMapping("/StringUpload/getString")
-    public String getStringInfo(@RequestParam String msgSenderAddress) throws Exception {
+    public String getStringInfo(String msgSenderAddress) throws Exception {
         return stringUploadService.getStringInfo(msgSenderAddress);
     }
 
     @PostMapping("/StringUpload/setString")
     public TransactionReceipt setStringInfo(
-            @RequestParam String msgSenderAddress,
+            @RequestParam String userAccount,
+            @RequestParam String userPassword,
             @RequestBody String stringInput
     ) throws Exception {
-        return stringUploadService.setStringInfo(msgSenderAddress,stringInput);
+        return stringUploadService.setStringInfo(userAccount,userPassword,stringInput);
     }
 
 

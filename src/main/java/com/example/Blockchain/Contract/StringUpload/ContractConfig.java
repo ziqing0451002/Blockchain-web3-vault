@@ -1,5 +1,6 @@
 package com.example.Blockchain.Contract.StringUpload;
 import com.example.Blockchain.Vault.VaultService;
+import com.example.Blockchain.UserInfo.UserInfoService;
 
 import com.example.Blockchain.web3Info.ContractProperties;
 import okhttp3.OkHttpClient;
@@ -28,6 +29,8 @@ public class ContractConfig {
     private ContractProperties config;
     @Autowired
     private VaultService vaultService;
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Bean
     public Quorum Quorum() {
@@ -45,7 +48,7 @@ public class ContractConfig {
     }
 
     private StringUploadService initShopService(String contractAddress, Quorum quorum) {
-        return new StringUploadService(contractAddress, quorum, config, vaultService);
+        return new StringUploadService(contractAddress, quorum, config, vaultService, userInfoService);
     }
 
     private StringUpload deployContract(Quorum quorum) throws Exception {
