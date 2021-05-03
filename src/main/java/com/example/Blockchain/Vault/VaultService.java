@@ -49,7 +49,6 @@ public class VaultService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         //讀取temp.json，上傳vault
         Map<String, Object> jsonMap=null;
         String command =
@@ -67,7 +66,7 @@ public class VaultService {
         ObjectMapper mapper = new ObjectMapper();
         jsonMap = mapper.readValue(inputStream, Map.class);
         inputStream.close();
-//        process.destroy();
+        process.destroy();
         return jsonMap;
     }
 }

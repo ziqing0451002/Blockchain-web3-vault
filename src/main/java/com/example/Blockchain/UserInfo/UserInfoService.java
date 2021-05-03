@@ -53,8 +53,14 @@ public class UserInfoService {
             userInfo.setUserPassword(encoder_md5.encodeMD5(userInfo.getUserPassword()));
             //取得區塊鏈錢包
             String userAddress = "0x" + nodeService.createAccount(userInfo.getUserPassword());
-            userInfo.setUserAddress(userAddress);
-            userInfoRepository.save(userInfo);
+            //檢查回傳之Address型態是正確，再完成addUser
+            if (userAddress.length() == 42){  // 0x + address(length=40)
+                userInfo.setUserAddress(userAddress);
+                userInfoRepository.save(userInfo);
+            }else {
+                throw new IllegalStateException("區塊鏈錢包建立失敗，回傳之錯誤訊息為:" + userAddress);
+            }
+
         }
 
     }
