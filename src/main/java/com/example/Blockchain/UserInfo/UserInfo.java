@@ -32,6 +32,7 @@ public class UserInfo {
     private String userAccount;
     private String userPassword;
     private String userAddress;
+    private String userPk;
     private String serviceName;
     private String agenciesName;
     private String status;
@@ -44,11 +45,12 @@ public class UserInfo {
 
     }
 
-    public UserInfo(String userAccount, String userPassword, String userAddress, String serviceName, String agenciesName, String status, Timestamp createdTime, Timestamp updatedTime){
+    public UserInfo(String userAccount, String userPassword, String userAddress, String userPk, String serviceName, String agenciesName, String status, Timestamp createdTime, Timestamp updatedTime){
 //        this.rowNum = rowNum;
         this.userAccount = userAccount;
         this.userPassword = userPassword;
         this.userAddress = userAddress;
+        this.userPk = userPk;
         this.serviceName = serviceName;
         this.agenciesName = agenciesName;
         this.status = status;
@@ -120,6 +122,14 @@ public class UserInfo {
 
     public void setUpdatedTime(Timestamp updatedTime) {
         this.updatedTime = updatedTime;
+    }
+
+    public String getUserPk() {
+        return userPk;
+    }
+
+    public void setUserPk(String userPk) {
+        this.userPk = userPk;
     }
 
 

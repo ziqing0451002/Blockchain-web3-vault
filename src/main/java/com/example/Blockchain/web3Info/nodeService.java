@@ -1,5 +1,4 @@
 package com.example.Blockchain.web3Info;
-
 import com.example.Blockchain.Vault.VaultService;
 import org.springframework.stereotype.Component;
 import org.web3j.crypto.*;
@@ -11,6 +10,8 @@ import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class nodeService {
         return quorum.ethAccounts().send().getAccounts();
     }
 
-    public String createAccount(String password) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException, CipherException {
+    public List<String> createAccount(String password) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException, CipherException {
         try {
             ECKeyPair keyPair = Keys.createEcKeyPair();
             String pk = keyPair.getPrivateKey().toString(16);
@@ -43,8 +44,13 @@ public class nodeService {
 
             WalletFile wallet = Wallet.createStandard(password, keyPair);
             String accountAddress = "0x" + wallet.getAddress();
+            System.out.println("accountAddress");
+            System.out.println(accountAddress);
             vaultService.setSecret(accountAddress,pk);
-            return  wallet.getAddress();
+            List<String> secretKV = new ArrayList<>();
+            secretKV.add(accountAddress);
+            secretKV.add(pk);
+            return secretKV;
 
             //在本機生成keystore檔案
 //            String fileName = WalletUtils.generateNewWalletFile(
@@ -54,7 +60,7 @@ public class nodeService {
 
         }catch (Exception e){
             System.err.println("Error: " + e.getMessage());
-            return e.getMessage();
+            return Collections.singletonList(e.getMessage());
         }
 
     }

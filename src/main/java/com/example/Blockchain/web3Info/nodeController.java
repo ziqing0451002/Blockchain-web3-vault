@@ -37,7 +37,7 @@ public class nodeController {
     }
 
     @PostMapping("/StringUpload/createAccount")
-    public String createAccount(@RequestParam String password
+    public List<String> createAccount(@RequestParam String password
     ) throws IOException, CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
 
         return nodeService.createAccount(password);
