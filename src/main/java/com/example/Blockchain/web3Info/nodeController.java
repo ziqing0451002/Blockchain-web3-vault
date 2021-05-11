@@ -26,23 +26,23 @@ public class nodeController {
         this.nodeService = nodeService;
     }
 
-    @GetMapping("/StringUpload/BlockNumber")
+    @GetMapping("/node/BlockNumber")
     public BigInteger getBlockNumber() throws IOException {
         return nodeService.getBlockNumber();
     }
 
-    @GetMapping("/StringUpload/AccountList")
+    @GetMapping("/node/AccountList")
     public List<String> getAccountList() throws IOException {
         return nodeService.getAccountList();
     }
 
-    @PostMapping("/StringUpload/createAccount")
+    @PostMapping("/node/createAccount")
     public List<String> createAccount(@RequestParam String password
     ) throws IOException, CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
 
         return nodeService.createAccount(password);
     }
-    @GetMapping("/StringUpload/NodeInfo")
+    @GetMapping("/node/getNodeInfo")
     public Optional<List<RaftPeer>> getNodeInfo() throws IOException {
         return nodeService.getNodeInfo();
     }

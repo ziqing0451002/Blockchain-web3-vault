@@ -28,4 +28,11 @@ public class VaultController {
         return vaultService.setSecret(accountAddress,accountPK);
     }
 
+    @DeleteMapping("/deleteSecret")
+    public boolean deleteSecret(
+            @RequestParam String accountAddress
+    ) throws IOException, JSONException {
+        return vaultService.deleteSecret(accountAddress);
+    }
+
 }

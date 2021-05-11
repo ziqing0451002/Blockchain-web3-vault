@@ -32,7 +32,9 @@ public class UserInfo {
     private String userAccount;
     private String userPassword;
     private String userAddress;
-    private String userPk;
+    private String userName;
+    private String userEmail;
+//    private String userPk;
     private String serviceName;
     private String agenciesName;
     private String status;
@@ -45,12 +47,14 @@ public class UserInfo {
 
     }
 
-    public UserInfo(String userAccount, String userPassword, String userAddress, String userPk, String serviceName, String agenciesName, String status, Timestamp createdTime, Timestamp updatedTime){
+    public UserInfo(String userAccount, String userPassword, String userAddress, String userName, String userEmail, String serviceName, String agenciesName, String status, Timestamp createdTime, Timestamp updatedTime){
 //        this.rowNum = rowNum;
         this.userAccount = userAccount;
         this.userPassword = userPassword;
         this.userAddress = userAddress;
-        this.userPk = userPk;
+        this.userName = userName;
+        this.userEmail = userEmail;
+//        this.userPk = userPk;
         this.serviceName = serviceName;
         this.agenciesName = agenciesName;
         this.status = status;
@@ -124,29 +128,37 @@ public class UserInfo {
         this.updatedTime = updatedTime;
     }
 
-    public String getUserPk() {
-        return userPk;
-    }
-
-    public void setUserPk(String userPk) {
-        this.userPk = userPk;
-    }
-
-
-//    public Integer getRowNum() {
-//        return rowNum;
+//    public String getUserPk() {
+//        return userPk;
 //    }
 //
-//    public void setRowNum(Integer rowNum) {
-//        this.rowNum = rowNum;
+//    public void setUserPk(String userPk) {
+//        this.userPk = userPk;
 //    }
 
-    @Override
-    public String toString(){
-        return "UserInfo{" +
-                "userAccount=" + userAccount + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", userAddress='" + userAddress + '\'' +
-                '}';
+
+//    @Override
+//    public String toString(){
+//        return "UserInfo{" +
+//                "userAccount=" + userAccount + '\'' +
+//                ", userPassword='" + userPassword + '\'' +
+//                ", userAddress='" + userAddress + '\'' +
+//                '}';
+//    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }

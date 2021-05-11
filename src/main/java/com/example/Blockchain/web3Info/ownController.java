@@ -28,24 +28,24 @@ public class ownController {
     @Autowired
     private StringUploadService stringUploadService;
 
-    @GetMapping("/owner")
-    public String getAddress() {
-        return ownerAddress;
-    }
-
-    @GetMapping("/owner/balance")
-    public BigInteger getBalance() throws IOException {
-        EthGetBalance wei = web3j.ethGetBalance(ownerAddress, DefaultBlockParameterName.LATEST).send();
-        return wei.getBalance();
-    }
-
-    @GetMapping("/owner/blockNum")
-    public BigInteger getBlockNumber() throws IOException, ExecutionException, InterruptedException {
-        EthBlockNumber ethBlockNumber = web3j.ethBlockNumber()
-                .sendAsync()
-                .get();
-        return ethBlockNumber.getBlockNumber();
-    }
+//    @GetMapping("/owner")
+//    public String getAddress() {
+//        return ownerAddress;
+//    }
+//
+//    @GetMapping("/owner/balance")
+//    public BigInteger getBalance() throws IOException {
+//        EthGetBalance wei = web3j.ethGetBalance(ownerAddress, DefaultBlockParameterName.LATEST).send();
+//        return wei.getBalance();
+//    }
+//
+//    @GetMapping("/owner/blockNum")
+//    public BigInteger getBlockNumber() throws IOException, ExecutionException, InterruptedException {
+//        EthBlockNumber ethBlockNumber = web3j.ethBlockNumber()
+//                .sendAsync()
+//                .get();
+//        return ethBlockNumber.getBlockNumber();
+//    }
 
 
 

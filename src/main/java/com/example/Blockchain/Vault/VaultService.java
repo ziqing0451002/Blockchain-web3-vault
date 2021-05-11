@@ -69,4 +69,19 @@ public class VaultService {
         process.destroy();
         return jsonMap;
     }
+
+    public boolean deleteSecret(String accountAddress) throws IOException {
+        Map<String, Object> jsonMap=null;
+        String command =
+                "curl -H \"X-Vault-Token: "+ VAULT_TOKEN + "\"  -X DELETE http://127.0.0.1:8200/v1/secret/metadata/" + accountAddress;
+        ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
+        processBuilder.start();
+//        Process process = processBuilder.start();
+//        InputStream inputStream = process.getInputStream();
+//        ObjectMapper mapper = new ObjectMapper();
+//        jsonMap = mapper.readValue(inputStream, Map.class);
+//        inputStream.close();
+//        process.destroy();
+        return true;
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.Blockchain.UserInfo;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.web3j.crypto.CipherException;
@@ -11,8 +13,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
+@Api(tags = "連線帳號 相關api")
 @RestController
-@RequestMapping(path = "api/v1/UserInfo")
+@RequestMapping(path = "api/account")
 public class UserInfoController {
 
     private final UserInfoService userInfoService;
@@ -22,24 +25,27 @@ public class UserInfoController {
         this.userInfoService = userInfoService;
     }
 
-    @GetMapping
+    @ApiOperation("取得連線帳號列表")
+    @GetMapping(path = "getAccounts")
     public List<UserInfo> getUserInfo(){
         return userInfoService.getUserInfo();
     }
 
-    @PostMapping
+    @ApiOperation("新增連線帳號")
+    @PostMapping(path = "createAccount")
     public void registerNewUser(@RequestBody UserInfo userInfo) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException, CipherException, IOException {
         userInfoService.addUser(userInfo);
     }
 
-    @DeleteMapping(path = "{userAccount}")
-    public void deletUser(@PathVariable("userAccount") String userAccount,
+    @ApiOperation("刪除連線帳號")
+    @DeleteMapping(path = "deleteAccount/{userAccount}")
+    public void deleteUser(@PathVariable("userAccount") String userAccount,
                           @RequestParam String userPassword
-    ){
-        userInfoService.deletUser(userAccount,userPassword);
+    ) throws IOException {
+        userInfoService.deleteUser(userAccount,userPassword);
     }
 
-
+    @ApiOperation("修改連線帳號密碼")
     @PutMapping(path = "/updatePassword/{userAccount}")
     public void updatePassword(@PathVariable("userAccount") String userAccount,
                                 @RequestParam String originalUserPassword,
@@ -49,14 +55,16 @@ public class UserInfoController {
 
     }
 
-
-    @PutMapping(path = "/updateInfo/{userAccount}")
+    @ApiOperation("修改連線帳號資訊")
+    @PutMapping(path = "/updateAccountInfo/{userAccount}")
     public void updateInfo(@PathVariable("userAccount") String userAccount,
+                           @RequestParam String userName,
+                           @RequestParam String userEmail,
                            @RequestParam String serviceName,
                            @RequestParam String agenciesName,
                            @RequestParam String status
     ){
-        userInfoService.updateInfo(userAccount,serviceName,agenciesName,status);
+        userInfoService.updateInfo(userAccount,userName,userEmail,serviceName,agenciesName,status);
 
     }
 
