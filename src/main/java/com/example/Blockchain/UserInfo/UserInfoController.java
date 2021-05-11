@@ -62,9 +62,10 @@ public class UserInfoController {
                            @RequestParam String userEmail,
                            @RequestParam String serviceName,
                            @RequestParam String agenciesName,
-                           @RequestParam String status
+                           @RequestParam String status,
+                           @RequestParam String remark
     ){
-        userInfoService.updateInfo(userAccount,userName,userEmail,serviceName,agenciesName,status);
+        userInfoService.updateInfo(userAccount,userName,userEmail,serviceName,agenciesName,status,remark);
 
     }
 

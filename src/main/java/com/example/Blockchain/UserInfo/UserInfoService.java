@@ -126,7 +126,7 @@ public class UserInfoService {
 
     //個人資料update，沒修改就用原本的(serviceName,agenciesName,status,.....)
     @Transactional
-    public void updateInfo(String userAccount,String userName,String userEmail, String serviceName,String agenciesName,String status){
+    public void updateInfo(String userAccount,String userName,String userEmail, String serviceName,String agenciesName,String status,String remark){
         UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
                 () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
         );
@@ -145,6 +145,7 @@ public class UserInfoService {
             userInfo.setServiceName(serviceName);
             userInfo.setAgenciesName(agenciesName);
             userInfo.setStatus(status);
+            userInfo.setRemark(remark);
             //紀錄修改時間
             Long datetime = System.currentTimeMillis();
             Timestamp timestamp = new Timestamp(datetime);

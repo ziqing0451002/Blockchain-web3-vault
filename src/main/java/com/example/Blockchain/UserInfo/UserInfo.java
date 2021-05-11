@@ -34,6 +34,7 @@ public class UserInfo {
     private String userAddress;
     private String userName;
     private String userEmail;
+    private String remark;
 //    private String userPk;
     private String serviceName;
     private String agenciesName;
@@ -47,13 +48,14 @@ public class UserInfo {
 
     }
 
-    public UserInfo(String userAccount, String userPassword, String userAddress, String userName, String userEmail, String serviceName, String agenciesName, String status, Timestamp createdTime, Timestamp updatedTime){
+    public UserInfo(String userAccount, String userPassword, String userAddress, String userName, String userEmail, String remark, String serviceName, String agenciesName, String status, Timestamp createdTime, Timestamp updatedTime){
 //        this.rowNum = rowNum;
         this.userAccount = userAccount;
         this.userPassword = userPassword;
         this.userAddress = userAddress;
         this.userName = userName;
         this.userEmail = userEmail;
+        this.remark = remark;
 //        this.userPk = userPk;
         this.serviceName = serviceName;
         this.agenciesName = agenciesName;
@@ -160,5 +162,13 @@ public class UserInfo {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
