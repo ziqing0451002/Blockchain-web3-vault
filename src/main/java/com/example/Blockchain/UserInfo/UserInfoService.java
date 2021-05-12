@@ -69,6 +69,17 @@ public class UserInfoService {
 
     }
 
+    public boolean userLogin(String  userAccount, String  userPassword){
+        UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
+                () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
+        );
+        if (  !Objects.equals(userInfo.getUserPassword(),encoder_md5.encodeMD5(userPassword))){
+            throw new IllegalStateException("密碼錯誤");
+        }else{
+            return true;
+        }
+    }
+
     public void deleteUser(String  userAccount,String userPassword) throws IOException {
         UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
                 () -> new IllegalStateException("userAccount:" + userAccount + "不存在")

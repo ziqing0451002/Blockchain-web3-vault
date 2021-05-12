@@ -69,11 +69,10 @@ public class UserInfoController {
 
     }
 
-//    @PutMapping(path = "/updateAddress/{userAccount}")
-//    public void updateName(@PathVariable("userAccount") String userAccount,
-//                            @RequestParam String userAddress
-//    ){
-//        userInfoService.updateAddress(userAccount,userAddress);
-//
-//    }
+    @GetMapping(path = "userLogin/{userAccount}")
+    public boolean userLogin(@PathVariable("userAccount") String userAccount,
+                             @RequestParam String userPassword
+    ){
+        return userInfoService.userLogin(userAccount,userPassword);
+    }
 }
