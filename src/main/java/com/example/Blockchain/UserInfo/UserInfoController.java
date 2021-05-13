@@ -39,10 +39,10 @@ public class UserInfoController {
 
     @ApiOperation("刪除連線帳號")
     @DeleteMapping(path = "deleteAccount/{userAccount}")
-    public void deleteUser(@PathVariable("userAccount") String userAccount,
+    public boolean deleteUser(@PathVariable("userAccount") String userAccount,
                           @RequestParam String userPassword
     ) throws IOException {
-        userInfoService.deleteUser(userAccount,userPassword);
+        return userInfoService.deleteUser(userAccount,userPassword);
     }
 
     @ApiOperation("修改連線帳號密碼")

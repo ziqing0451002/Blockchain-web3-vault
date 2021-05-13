@@ -80,7 +80,7 @@ public class UserInfoService {
         }
     }
 
-    public void deleteUser(String  userAccount,String userPassword) throws IOException {
+    public boolean deleteUser(String  userAccount,String userPassword) throws IOException {
         UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
                 () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
         );
@@ -91,6 +91,7 @@ public class UserInfoService {
         }else{
             vaultService.deleteSecret(userInfo.getUserAddress());
             userInfoRepository.deleteById(userAccount);
+            return true;
         }
     }
 
