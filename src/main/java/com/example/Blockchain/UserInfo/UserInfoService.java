@@ -41,6 +41,10 @@ public class UserInfoService {
         return userInfoRepository.findAll();
     }
 
+    public UserInfo getUserInfoByUserAccount(String userAccount){
+        return userInfoRepository.findUserInfoByUserAccount(userAccount);
+    }
+
 
     public void addUser(UserInfo userInfo) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
         boolean exists = userInfoRepository.existsById(userInfo.getUserAccount());

@@ -3,6 +3,7 @@ package com.example.Blockchain.UserInfo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.web3j.crypto.CipherException;
@@ -29,6 +30,12 @@ public class UserInfoController {
     @GetMapping(path = "getAccounts")
     public List<UserInfo> getUserInfo(){
         return userInfoService.getUserInfo();
+    }
+
+    @ApiOperation("取得單筆連線帳號")
+    @GetMapping(path = "getUserInfoByUserAccount/{userAccount}")
+    public UserInfo getUserInfoByUserAccount(@PathVariable("userAccount") String userAccount){
+        return userInfoService.getUserInfoByUserAccount(userAccount);
     }
 
     @ApiOperation("新增連線帳號")
