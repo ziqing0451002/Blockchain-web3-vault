@@ -29,7 +29,7 @@ public class UserInfoController {
     @ApiOperation("取得連線帳號列表")
     @GetMapping(path = "getAccounts")
     public List<UserInfo> getUserInfo(){
-        return userInfoService.getUserInfo();
+        return userInfoService.getUserInfoAscByTime();
     }
 
     @ApiOperation("取得單筆連線帳號")
@@ -73,6 +73,19 @@ public class UserInfoController {
                            @RequestParam String remark
     ){
         userInfoService.updateInfo(userAccount,userName,userEmail,serviceName,agenciesName,status,remark);
+
+    }
+    @PutMapping(path = "/updateAccountInfoPWD/{userAccount}")
+    public void updateInfoPWD(@PathVariable("userAccount") String userAccount,
+                           @RequestParam String userName,
+                           @RequestParam String userEmail,
+                           @RequestParam String serviceName,
+                           @RequestParam String agenciesName,
+                           @RequestParam String status,
+                           @RequestParam String remark,
+                           @RequestParam String userPassword
+    ){
+        userInfoService.updateInfo(userAccount,userName,userEmail,serviceName,agenciesName,status,remark,userPassword);
 
     }
 

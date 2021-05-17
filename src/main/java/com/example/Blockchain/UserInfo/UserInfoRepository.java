@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
     UserInfo findUserInfoByUserAccount(String userAccount);
+    List<UserInfo> findAllByOrderByCreatedTimeAsc();
 }

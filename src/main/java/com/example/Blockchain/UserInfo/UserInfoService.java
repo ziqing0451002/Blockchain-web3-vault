@@ -41,6 +41,10 @@ public class UserInfoService {
         return userInfoRepository.findAll();
     }
 
+    public List<UserInfo> getUserInfoAscByTime(){
+        return userInfoRepository.findAllByOrderByCreatedTimeAsc();
+    }
+
     public UserInfo getUserInfoByUserAccount(String userAccount){
         return userInfoRepository.findUserInfoByUserAccount(userAccount);
     }
@@ -158,10 +162,45 @@ public class UserInfoService {
         }else if(status == null || status.length() <= 0){
             throw new IllegalStateException("狀態");
         }else{
+            userInfo.setUserName(userName);
+            userInfo.setUserEmail(userEmail);
             userInfo.setServiceName(serviceName);
             userInfo.setAgenciesName(agenciesName);
             userInfo.setStatus(status);
             userInfo.setRemark(remark);
+            //紀錄修改時間
+            Long datetime = System.currentTimeMillis();
+            Timestamp timestamp = new Timestamp(datetime);
+            userInfo.setUpdatedTime(timestamp);
+
+        }
+    }
+
+
+    @Transactional
+    public void updateInfo(String userAccount,String userName,String userEmail, String serviceName,String agenciesName,String status,String remark,String userPassword){
+        UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
+                () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
+        );
+
+        if (userName == null || userName.length() <= 0){
+            throw new IllegalStateException("管理者不得為空");
+        }else if(userEmail == null || userEmail.length() <= 0){
+            throw new IllegalStateException("信箱不得為空");
+        }else if(userPassword == null || userPassword.length() <= 0){
+            throw new IllegalStateException("密碼不得為空");
+        }else if(serviceName == null || serviceName.length() <= 0){
+            throw new IllegalStateException("服務名稱不得為空");
+        }else if(agenciesName == null || agenciesName.length() <= 0){
+            throw new IllegalStateException("機構名稱不得為空");
+        }else if(status == null || status.length() <= 0){
+            throw new IllegalStateException("狀態");
+        }else{
+            userInfo.setServiceName(serviceName);
+            userInfo.setAgenciesName(agenciesName);
+            userInfo.setStatus(status);
+            userInfo.setRemark(remark);
+            userInfo.setUserPassword(encoder_md5.encodeMD5(userPassword));
             //紀錄修改時間
             Long datetime = System.currentTimeMillis();
             Timestamp timestamp = new Timestamp(datetime);
