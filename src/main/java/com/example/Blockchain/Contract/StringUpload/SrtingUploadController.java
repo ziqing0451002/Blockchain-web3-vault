@@ -28,7 +28,7 @@
 //    }
 //
 //    @GetMapping("/StringUpload/getString")
-//    public String getStringInfo(String msgSenderAddress) throws Exception {
+//    public String getStringInfo(@RequestParam String msgSenderAddress) throws Exception {
 //        return stringUploadService.getStringInfo(msgSenderAddress);
 //    }
 //

@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
+@RestController
 public class CertificateUploadController {
     private final CertificateUploadService certificateUploadService;
 
@@ -21,7 +23,7 @@ public class CertificateUploadController {
     }
 
     @GetMapping("/CertificateUpload/getCertInfo")
-    public TransactionReceipt getCertInfo(String msgSenderAddress, String certId) throws Exception {
+    public String getCertInfo(@RequestParam String msgSenderAddress, @RequestParam String certId) throws Exception {
         return certificateUploadService.getCertInfo(msgSenderAddress,certId);
     }
 

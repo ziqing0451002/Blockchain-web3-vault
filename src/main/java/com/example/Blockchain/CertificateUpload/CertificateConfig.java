@@ -38,7 +38,7 @@ public class CertificateConfig {
     }
 
     @Bean
-    public CertificateUploadService contract(Quorum quorum, @Value("${lottery.contract.address:}") String contractAddress)
+    public CertificateUploadService contract(Quorum quorum, @Value("${CertificateUpload.contract.address:}") String contractAddress)
             throws Exception {
         if (StringUtils.isEmpty(contractAddress)) {
             CertificateUpload certificateUpload = deployContract(quorum);
@@ -52,7 +52,7 @@ public class CertificateConfig {
     }
 
     private CertificateUpload deployContract(Quorum quorum) throws Exception {
-        Credentials credentials = Credentials.create("b21dce597924a1b57dc10901cf8ee7cb88cd81bb623819be8f3ee8e422d8fd12");
+        Credentials credentials = Credentials.create("24d9e65899013e1a67a27d3f932b00e9e4b170114cf06740c47bb45f98c63395");
         LOG.info("About to deploy new contract...");
         CertificateUpload contract = CertificateUpload.deploy(quorum, credentials, config.gas()).send();
         LOG.info("Deployed new contract with address '{}'", contract.getContractAddress());
