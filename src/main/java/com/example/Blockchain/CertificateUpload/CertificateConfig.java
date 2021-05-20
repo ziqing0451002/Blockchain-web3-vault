@@ -21,7 +21,6 @@ public class CertificateConfig {
 
 //    @Value("${lottery.contract.owner-address}")
 //    private String ownerAddress;
-
     @Value("${web3j.client-address}")
     private String clientAddress;
 
@@ -31,6 +30,7 @@ public class CertificateConfig {
     private VaultService vaultService;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
 
     @Bean
     public Quorum Quorum() {
@@ -38,16 +38,16 @@ public class CertificateConfig {
     }
 
     @Bean
-    public CertificateUploadService contract(Quorum quorum, @Value("${CertificateUpload.contract.address:}") String contractAddress)
+    public CertificateUploadService contractCertificateUploadService(Quorum quorum, @Value("${CertificateUpload.contract.address:}") String contractAddress)
             throws Exception {
         if (StringUtils.isEmpty(contractAddress)) {
             CertificateUpload certificateUpload = deployContract(quorum);
-            return initShopService(certificateUpload.getContractAddress(), quorum);
+            return initCertificateUploadService(certificateUpload.getContractAddress(), quorum);
         }
-        return initShopService(contractAddress, quorum);
+        return initCertificateUploadService(contractAddress, quorum);
     }
 
-    private CertificateUploadService initShopService(String contractAddress, Quorum quorum) {
+    private CertificateUploadService initCertificateUploadService(String contractAddress, Quorum quorum) {
         return new CertificateUploadService(contractAddress, quorum, config, vaultService, userInfoService);
     }
 
@@ -63,5 +63,15 @@ public class CertificateConfig {
 //        return new ClientTransactionManager(quorum, ownerAddress);
 //    }
 
+//    //加入Certificate Config
+    @Bean
+    public CertificateService contractCertificateService(Quorum quorum)
+            throws Exception {
+        return initCertificateService(quorum);
+    }
+
+    private CertificateService initCertificateService(Quorum quorum) {
+        return new CertificateService(quorum, config, vaultService, userInfoService);
+    }
 
 }
