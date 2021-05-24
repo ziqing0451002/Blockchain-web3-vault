@@ -16,10 +16,13 @@ public class VaultService {
     @Value("${spring.cloud.vault.token}")
     public String VAULT_TOKEN;
 
+    @Value("${spring.cloud.vault.url}")
+    public String VAULT_URL;
+
     public Map<String, Object> getSecret(String accountAddress) throws IOException {
         Map<String, Object> jsonMap=null;
         String command =
-                "curl -H \"X-Vault-Token: "+ VAULT_TOKEN + "\"  -X GET http://127.0.0.1:8200/v1/secret/data/" + accountAddress;
+                "curl -H \"X-Vault-Token: "+ VAULT_TOKEN + "\"  -X GET "+ VAULT_URL + "/v1/secret/data/" + accountAddress;
         ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
         Process process = processBuilder.start();
         InputStream inputStream = process.getInputStream();
@@ -52,7 +55,7 @@ public class VaultService {
         //讀取temp.json，上傳vault
         Map<String, Object> jsonMap=null;
         String command =
-                "curl --header \"X-Vault-Token:" + VAULT_TOKEN + "\" --request POST --data @temp.json http://127.0.0.1:8200/v1/secret/data/" + accountAddress;
+                "curl --header \"X-Vault-Token:" + VAULT_TOKEN + "\" --request POST --data @temp.json "+ VAULT_URL + "/v1/secret/data/" + accountAddress;
         System.out.println(command);
         ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
         System.out.println(processBuilder);
@@ -73,7 +76,7 @@ public class VaultService {
     public boolean deleteSecret(String accountAddress) throws IOException {
         Map<String, Object> jsonMap=null;
         String command =
-                "curl -H \"X-Vault-Token: "+ VAULT_TOKEN + "\"  -X DELETE http://127.0.0.1:8200/v1/secret/metadata/" + accountAddress;
+                "curl -H \"X-Vault-Token: "+ VAULT_TOKEN + "\"  -X DELETE "+ VAULT_URL + "/v1/secret/metadata/" + accountAddress;
         ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
         processBuilder.start();
 //        Process process = processBuilder.start();

@@ -27,7 +27,7 @@ public class CertificateService {
     private final VaultService vaultService;
     //驗證證書資訊，則可以不用登入，我們直接配一個公用的帳號給他
     private String pwd = "read_only"; //若透過讀取keystore登入身分，則需要密碼
-    private String keystore = "f8335ca3bb5407293cee7664f4fe623561355a5ad6e12b892ffcb0aa8f0bd23";
+    private String keystore = "683db17f340c2ffadda52cdaa83f3022c016f5e1e201df1e7d2a8071eb74c7ba";
 
     public CertificateService(Quorum quorum, ContractProperties config, VaultService vaultService, UserInfoService userInfoService) {
         this.quorum = quorum;

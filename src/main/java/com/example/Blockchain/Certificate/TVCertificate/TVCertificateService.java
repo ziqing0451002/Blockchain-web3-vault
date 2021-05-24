@@ -38,7 +38,7 @@ public class TVCertificateService {
         return tvCertificateRepository.findTVCertificateByCertId(certId);
     }
 
-    public String setTVCertificate(String userAccount, String userPassword, TVCertificate tvCertificate) throws Exception {
+    public String  setTVCertificate(String userAccount, String userPassword, TVCertificate tvCertificate) throws Exception {
         boolean certIdExists = tvCertificateRepository.existsById(tvCertificate.getCertId());
         boolean userAccountexists = userInfoRepository.existsById(userAccount);
         if (!userAccountexists){
@@ -69,7 +69,7 @@ public class TVCertificateService {
         System.out.println(tvCertificateFromDB);
         Tuple5<String, String, String, String, String> tvCertificateFromBC = certificateService.getCertInfo(tvCertificateFromDB.getCertAddress());
         System.out.println(tvCertificateFromBC);
-
+        System.out.println("certId:" + certId + ", 合約地址"+tvCertificateFromDB.getCertAddress());
         if (!tvCertificateFromBC.component1().equals(tvCertificateFromDB.getCertId())){
             throw new IllegalStateException("CertID比對不符:" + tvCertificateFromBC.component1() +"(資料庫)" + tvCertificateFromDB.getCertId() +"(區塊鏈)");
         }else if (!tvCertificateFromBC.component2().equals(tvCertificateFromDB.getCertName())){
