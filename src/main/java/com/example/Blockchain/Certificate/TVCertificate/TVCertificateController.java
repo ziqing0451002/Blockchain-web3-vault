@@ -2,8 +2,9 @@ package com.example.Blockchain.Certificate.TVCertificate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.web3j.tuples.generated.Tuple5;
+import org.web3j.tuples.generated.Tuple6;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,7 @@ public class TVCertificateController {
     }
 
     @GetMapping(path = "getTVCertificateFronBC/{certId}")
-    public Tuple5<String, String, String, String, String> getTVCertificateFronBC(@PathVariable("certId") String certId) throws Exception {
+    public Tuple6<String, String, String, String, String, BigInteger> getTVCertificateFronBC(@PathVariable("certId") String certId) throws Exception {
         return tvCertificateService.getTVCertificateFronBC(certId);
     }
 

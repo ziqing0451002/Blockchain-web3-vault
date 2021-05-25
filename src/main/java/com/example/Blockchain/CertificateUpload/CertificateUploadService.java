@@ -61,11 +61,40 @@ public class CertificateUploadService {
         return certificateUpload.getCertContract(certId).send();
     }
 
-    public TransactionReceipt setCertInfo(String userAccount, String userPassword, String certId, String certName, String gettingTime, String agenceFrom, String content) throws Exception {
+    //做好hashCode後呼叫
+    public TransactionReceipt setCertInfo(String userAccount, String userPassword, String certId, String certName, String gettingTime, String agenceFrom, String content, int hashCode) throws Exception {
         String msgSenderAddress = userInfoService.exchangeAddress(userAccount, userPassword);
         System.out.println(msgSenderAddress);
         CertificateUpload certificateUpload = loadContract(msgSenderAddress);
-        TransactionReceipt transactionReceipt = certificateUpload.setCertContract(certId,certName,gettingTime,agenceFrom,content).send();
+        System.out.println(certId);
+        System.out.println(certName);
+        System.out.println(gettingTime);
+        System.out.println(agenceFrom);
+        System.out.println(content);
+        System.out.println(hashCode);
+        TransactionReceipt transactionReceipt = certificateUpload.setCertContract(certId,certName,gettingTime,agenceFrom,content,hashCode).send();
         return transactionReceipt;
     }
+
+    //先呼叫再做hashCode
+    public TransactionReceipt setCertInfo(String userAccount, String userPassword, String certId, String certName, String gettingTime, String agenceFrom, String content ) throws Exception {
+        int hashCode = hashCodeCreate(certId,certName,gettingTime,agenceFrom,content);
+        String msgSenderAddress = userInfoService.exchangeAddress(userAccount, userPassword);
+        System.out.println(msgSenderAddress);
+        CertificateUpload certificateUpload = loadContract(msgSenderAddress);
+        TransactionReceipt transactionReceipt = certificateUpload.setCertContract(certId,certName,gettingTime,agenceFrom,content,hashCode).send();
+        return transactionReceipt;
+    }
+
+    private int hashCodeCreate(String certId, String certName, String gettingTime, String agenceFrom, String content) {
+        int certIdResult = certId != null ? certId.hashCode() : 0;
+        int certNameResult = certName != null ? certName.hashCode() : 0;
+        int gettingTimeResult = gettingTime != null ? gettingTime.hashCode() : 0;
+        int agenceFromResult = agenceFrom != null ? agenceFrom.hashCode() : 0;
+        int contentResult = content != null ? content.hashCode() : 0;
+        int hashCodeResult = 31 * certIdResult + certNameResult + gettingTimeResult + agenceFromResult + contentResult;
+        return hashCodeResult;
+    }
+
+
 }

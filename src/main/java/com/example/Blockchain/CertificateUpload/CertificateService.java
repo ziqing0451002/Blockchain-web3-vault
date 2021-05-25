@@ -5,19 +5,17 @@ import com.example.Blockchain.Vault.VaultService;
 import com.example.Blockchain.web3Info.ContractProperties;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.quorum.Quorum;
-import org.web3j.tuples.generated.Tuple5;
+import org.web3j.tuples.generated.Tuple6;
 import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.TransactionManager;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Map;
 @Component
 public class CertificateService {
@@ -37,7 +35,7 @@ public class CertificateService {
     }
     //===========================================================================================================
     // 使用公共read_only帳號進行書證驗證
-    public Tuple5<String, String, String, String, String> getCertInfo(String contractAddress) throws Exception {
+    public Tuple6<String, String, String, String, String, BigInteger> getCertInfo(String contractAddress) throws Exception {
         Certificate certificate = loadContract(contractAddress);
         return certificate.getCertInfo().send();
     }
@@ -53,7 +51,7 @@ public class CertificateService {
 
     //===========================================================================================================
     // 必須登入自己的帳號帳號，才能進行書證驗證
-    public Tuple5<String, String, String, String, String> getCertInfo(String msgSenderAddress,String contractAddress) throws Exception {
+    public Tuple6<String, String, String, String, String, BigInteger> getCertInfo(String msgSenderAddress, String contractAddress) throws Exception {
         Certificate certificate = loadContract(msgSenderAddress,contractAddress);
         return certificate.getCertInfo().send();
     }

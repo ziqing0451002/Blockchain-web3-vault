@@ -19,8 +19,10 @@ public class TVCertificate {
     private String certAddress;
     private Timestamp createdTime;
     private Timestamp updatedTime;
+    private int hashCode;
 
-    public TVCertificate(String certId, String certName, String gettingTime, String agenceFrom, String content, String certAddress, Timestamp updatedTime) {
+
+    public TVCertificate(String certId, String certName, String gettingTime, String agenceFrom, String content, String certAddress, Timestamp updatedTime, int hashCode) {
         this.certId = certId;
         this.certName = certName;
         this.gettingTime = gettingTime;
@@ -28,6 +30,7 @@ public class TVCertificate {
         this.content = content;
         this.certAddress = certAddress;
         this.updatedTime = updatedTime;
+        this.hashCode = hashCode;
     }
 
     public TVCertificate(){
@@ -96,5 +99,13 @@ public class TVCertificate {
 
     public void setUpdatedTime(Timestamp updatedTime) {
         this.updatedTime = updatedTime;
+    }
+
+    public int getHashCode() {
+        return hashCode;
+    }
+
+    public void setHashCode(int hashCode) {
+        this.hashCode = hashCode;
     }
 }
