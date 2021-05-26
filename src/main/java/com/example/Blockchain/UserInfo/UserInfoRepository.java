@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
-    UserInfo findUserInfoByUserAccount(String userAccount);
+    UserInfo findUserInfoByConnectAccount(String connectAccount);
     List<UserInfo> findAllByOrderByCreatedTimeAsc();
 }

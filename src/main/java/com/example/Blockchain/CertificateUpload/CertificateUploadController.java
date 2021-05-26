@@ -29,14 +29,14 @@ public class CertificateUploadController {
 
     @PostMapping("/CertificateUpload/setCertInfo")
     public TransactionReceipt setCertInfo(
-            @RequestParam String userAccount,
-            @RequestParam String userPassword,
+            @RequestParam String connectAccount,
+            @RequestParam String connectPassword,
             @RequestParam String certId,
             @RequestParam String certName,
             @RequestParam String gettingTime,
             @RequestParam String agenceFrom,
             @RequestParam String content
     ) throws Exception {
-        return certificateUploadService.setCertInfo(userAccount,userPassword,certId,certName,gettingTime,agenceFrom,content);
+        return certificateUploadService.setCertInfo(connectAccount,connectPassword,certId,certName,gettingTime,agenceFrom,content);
     }
 }

@@ -39,14 +39,14 @@ public class TVCertificateService {
         return tvCertificateRepository.findTVCertificateByCertId(certId);
     }
 
-    public String  setTVCertificate(String userAccount, String userPassword, TVCertificate tvCertificate) throws Exception {
+    public String  setTVCertificate(String connectAccount, String connectPassword, TVCertificate tvCertificate) throws Exception {
         boolean certIdExists = tvCertificateRepository.existsById(tvCertificate.getCertId());
-        boolean userAccountexists = userInfoRepository.existsById(userAccount);
-        if (!userAccountexists){
-            throw new IllegalStateException("userAccount:" + userAccount + "不存在");
+        boolean connectAccountexists = userInfoRepository.existsById(connectAccount);
+        if (!connectAccountexists){
+            throw new IllegalStateException("connectAccount:" + connectAccount + "不存在");
         }else {
-            UserInfo userInfo = userInfoRepository.findUserInfoByUserAccount(userAccount);
-            if (  !Objects.equals(userInfo.getUserPassword(),encoder_md5.encodeMD5(userPassword))){
+            UserInfo userInfo = userInfoRepository.findUserInfoByConnectAccount(connectAccount);
+            if (  !Objects.equals(userInfo.getconnectPassword(),encoder_md5.encodeMD5(connectPassword))){
                 throw new IllegalStateException("密碼錯誤");
             }else if (certIdExists){
                 throw new IllegalStateException("CertID:" + tvCertificate.getCertId() + "已被使用");
@@ -55,9 +55,9 @@ public class TVCertificateService {
                 int hashCode = hashCodeCreate(tvCertificate.getCertId(),
                         tvCertificate.getCertName(),tvCertificate.getGettingTime(),tvCertificate.getAgenceFrom(),tvCertificate.getContent());
 
-                certificateUploadService.setCertInfo(userAccount,userPassword,tvCertificate.getCertId(),
+                certificateUploadService.setCertInfo(connectAccount,connectPassword,tvCertificate.getCertId(),
                         tvCertificate.getCertName(),tvCertificate.getGettingTime(),tvCertificate.getAgenceFrom(),tvCertificate.getContent(),hashCode);
-                tvCertificate.setCertAddress(certificateUploadService.getCertInfo(userInfo.getUserAddress(),tvCertificate.getCertId()));
+                tvCertificate.setCertAddress(certificateUploadService.getCertInfo(userInfo.getwalletAddress(),tvCertificate.getCertId()));
                 //紀錄創建時間以及初始化最終修改時間
                 Long datetime = System.currentTimeMillis();
                 Timestamp timestamp = new Timestamp(datetime);

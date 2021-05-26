@@ -29,8 +29,8 @@ public class TVCertificateController {
     }
 
     @PostMapping(path = "setTVCertificate")
-    public String setTVCertificate(@RequestParam String userAccount,@RequestParam String userPassword, @RequestBody TVCertificate tvCertificate) throws Exception {
-        return tvCertificateService.setTVCertificate(userAccount,userPassword,tvCertificate);
+    public String setTVCertificate(@RequestParam String connectAccount,@RequestParam String connectPassword, @RequestBody TVCertificate tvCertificate) throws Exception {
+        return tvCertificateService.setTVCertificate(connectAccount,connectPassword,tvCertificate);
     }
 
     @GetMapping(path = "verifyCertificate/{certId}")

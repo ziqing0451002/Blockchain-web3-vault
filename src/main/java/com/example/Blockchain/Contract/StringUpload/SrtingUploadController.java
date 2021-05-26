@@ -34,11 +34,11 @@
 //
 //    @PostMapping("/StringUpload/setString")
 //    public TransactionReceipt setStringInfo(
-//            @RequestParam String userAccount,
-//            @RequestParam String userPassword,
+//            @RequestParam String connectAccount,
+//            @RequestParam String connectPassword,
 //            @RequestBody String stringInput
 //    ) throws Exception {
-//        return stringUploadService.setStringInfo(userAccount,userPassword,stringInput);
+//        return stringUploadService.setStringInfo(connectAccount,connectPassword,stringInput);
 //    }
 //
 //

@@ -9,7 +9,7 @@ import javax.persistence.*;
 // 宣告為實體(@Entity)
 @Entity
 // 對應資料庫表名稱
-@Table(name = "user_info")
+@Table(name = "connect_info")
 public class UserInfo {
     @Id
     //產生序列
@@ -27,18 +27,18 @@ public class UserInfo {
     // 主鍵由數據庫自動維護(AUTO_INCREMENT)
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "rowNum")
-
+//
 //    private Integer rowNum;
-    private String userAccount;
-    private String userPassword;
-    private String userAddress;
-    private String userName;
-    private String userEmail;
+    private String connectAccount;
+    private String connectPassword;
+    private String walletAddress;
+    private String managerName;
+    private String managerEmail;
     private String remark;
 //    private String userPk;
     private String serviceName;
-    private String agenciesName;
-    private String status;
+    private String orgName;
+    private boolean status;
     private Timestamp createdTime;
     private Timestamp updatedTime;
 
@@ -48,44 +48,44 @@ public class UserInfo {
 
     }
 
-    public UserInfo(String userAccount, String userPassword, String userAddress, String userName, String userEmail, String remark, String serviceName, String agenciesName, String status, Timestamp createdTime, Timestamp updatedTime){
+    public UserInfo(String connectAccount, String connectPassword, String walletAddress, String managerName, String managerEmail, String remark, String serviceName, String orgName, boolean status, Timestamp createdTime, Timestamp updatedTime){
 //        this.rowNum = rowNum;
-        this.userAccount = userAccount;
-        this.userPassword = userPassword;
-        this.userAddress = userAddress;
-        this.userName = userName;
-        this.userEmail = userEmail;
+        this.connectAccount = connectAccount;
+        this.connectPassword = connectPassword;
+        this.walletAddress = walletAddress;
+        this.managerName = managerName;
+        this.managerEmail = managerEmail;
         this.remark = remark;
 //        this.userPk = userPk;
         this.serviceName = serviceName;
-        this.agenciesName = agenciesName;
+        this.orgName = orgName;
         this.status = status;
         this.createdTime = createdTime;
         this.updatedTime = updatedTime;
     }
 
-    public String getUserAccount() {
-        return userAccount;
+    public String getconnectAccount() {
+        return connectAccount;
     }
 
-    public void setUserAccount(String userAccount) {
-        this.userAccount = userAccount;
+    public void setconnectAccount(String connectAccount) {
+        this.connectAccount = connectAccount;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getconnectPassword() {
+        return connectPassword;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setconnectPassword(String connectPassword) {
+        this.connectPassword = connectPassword;
     }
 
-    public String getUserAddress() {
-        return userAddress;
+    public String getwalletAddress() {
+        return walletAddress;
     }
 
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
+    public void setwalletAddress(String walletAddress) {
+        this.walletAddress = walletAddress;
     }
 
 
@@ -97,19 +97,19 @@ public class UserInfo {
         this.serviceName = serviceName;
     }
 
-    public String getAgenciesName() {
-        return agenciesName;
+    public String getorgName() {
+        return orgName;
     }
 
-    public void setAgenciesName(String agenciesName) {
-        this.agenciesName = agenciesName;
+    public void setorgName(String orgName) {
+        this.orgName = orgName;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -142,26 +142,26 @@ public class UserInfo {
 //    @Override
 //    public String toString(){
 //        return "UserInfo{" +
-//                "userAccount=" + userAccount + '\'' +
-//                ", userPassword='" + userPassword + '\'' +
-//                ", userAddress='" + userAddress + '\'' +
+//                "connectAccount=" + connectAccount + '\'' +
+//                ", connectPassword='" + connectPassword + '\'' +
+//                ", walletAddress='" + walletAddress + '\'' +
 //                '}';
 //    }
 
-    public String getUserName() {
-        return userName;
+    public String getmanagerName() {
+        return managerName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setmanagerName(String managerName) {
+        this.managerName = managerName;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getmanagerEmail() {
+        return managerEmail;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setmanagerEmail(String managerEmail) {
+        this.managerEmail = managerEmail;
     }
 
     public String getRemark() {

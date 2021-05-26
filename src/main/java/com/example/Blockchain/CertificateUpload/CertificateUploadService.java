@@ -62,8 +62,8 @@ public class CertificateUploadService {
     }
 
     //做好hashCode後呼叫
-    public TransactionReceipt setCertInfo(String userAccount, String userPassword, String certId, String certName, String gettingTime, String agenceFrom, String content, int hashCode) throws Exception {
-        String msgSenderAddress = userInfoService.exchangeAddress(userAccount, userPassword);
+    public TransactionReceipt setCertInfo(String connectAccount, String connectPassword, String certId, String certName, String gettingTime, String agenceFrom, String content, int hashCode) throws Exception {
+        String msgSenderAddress = userInfoService.exchangeAddress(connectAccount, connectPassword);
         System.out.println(msgSenderAddress);
         CertificateUpload certificateUpload = loadContract(msgSenderAddress);
         System.out.println(certId);
@@ -77,9 +77,9 @@ public class CertificateUploadService {
     }
 
     //先呼叫再做hashCode
-    public TransactionReceipt setCertInfo(String userAccount, String userPassword, String certId, String certName, String gettingTime, String agenceFrom, String content ) throws Exception {
+    public TransactionReceipt setCertInfo(String connectAccount, String connectPassword, String certId, String certName, String gettingTime, String agenceFrom, String content ) throws Exception {
         int hashCode = hashCodeCreate(certId,certName,gettingTime,agenceFrom,content);
-        String msgSenderAddress = userInfoService.exchangeAddress(userAccount, userPassword);
+        String msgSenderAddress = userInfoService.exchangeAddress(connectAccount, connectPassword);
         System.out.println(msgSenderAddress);
         CertificateUpload certificateUpload = loadContract(msgSenderAddress);
         TransactionReceipt transactionReceipt = certificateUpload.setCertContract(certId,certName,gettingTime,agenceFrom,content,hashCode).send();

@@ -64,8 +64,8 @@
 //        return stringUpload.getStringInfo().send();
 //    }
 //
-//    public TransactionReceipt setStringInfo( String userAccount, String userPassword,String stringInput) throws Exception {
-//        String msgSenderAddress = userInfoService.exchangeAddress(userAccount, userPassword);
+//    public TransactionReceipt setStringInfo( String connectAccount, String connectPassword,String stringInput) throws Exception {
+//        String msgSenderAddress = userInfoService.exchangeAddress(connectAccount, connectPassword);
 //        StringUpload stringUpload = loadContract(msgSenderAddress);
 //        TransactionReceipt transactionReceipt = stringUpload.setStringInfo(stringInput).send();
 //        return transactionReceipt;

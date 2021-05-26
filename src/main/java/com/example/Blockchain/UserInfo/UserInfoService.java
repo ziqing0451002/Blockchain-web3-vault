@@ -45,15 +45,16 @@ public class UserInfoService {
         return userInfoRepository.findAllByOrderByCreatedTimeAsc();
     }
 
-    public UserInfo getUserInfoByUserAccount(String userAccount){
-        return userInfoRepository.findUserInfoByUserAccount(userAccount);
+    public UserInfo getUserInfoByConnectAccount(String connectAccount){
+        return userInfoRepository.findUserInfoByConnectAccount(connectAccount);
     }
 
 
     public void addUser(UserInfo userInfo) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
-        boolean exists = userInfoRepository.existsById(userInfo.getUserAccount());
+        System.out.println("getconnectAccount: " + userInfo.getconnectAccount());
+        boolean exists = userInfoRepository.existsById(userInfo.getconnectAccount());
         if (exists){
-            throw new IllegalStateException("userAccount:" + userInfo.getUserAccount() + "已被使用");
+            throw new IllegalStateException("connectAccount:" + userInfo.getconnectAccount() + "已被使用");
         }else {
             //紀錄創建時間以及初始化最終修改時間
             Long datetime = System.currentTimeMillis();
@@ -61,111 +62,109 @@ public class UserInfoService {
             userInfo.setCreatedTime(timestamp);
             userInfo.setUpdatedTime(timestamp);
             //MD5加密
-            userInfo.setUserPassword(encoder_md5.encodeMD5(userInfo.getUserPassword()));
+            userInfo.setconnectPassword(encoder_md5.encodeMD5(userInfo.getconnectPassword()));
             //取得區塊鏈錢包
-            List<String> userAddress = nodeService.createAccount(userInfo.getUserPassword());
+            List<String> walletAddress = nodeService.createAccount(userInfo.getconnectPassword());
 //            檢查回傳之Address型態是正確，再完成addUser
-            if (userAddress.get(0).length() == 42){  // 0x + address(length=40)
-                userInfo.setUserAddress(userAddress.get(0));
-//                userInfo.setUserPk(userAddress.get(1));
+            if (walletAddress.get(0).length() == 42){  // 0x + address(length=40)
+                userInfo.setwalletAddress(walletAddress.get(0));
+//                userInfo.setUserPk(walletAddress.get(1));
                 userInfoRepository.save(userInfo);
             }else {
-                throw new IllegalStateException("區塊鏈錢包建立失敗，回傳之錯誤訊息為:" + userAddress);
+                throw new IllegalStateException("區塊鏈錢包建立失敗，回傳之錯誤訊息為:" + walletAddress);
             }
 
         }
 
     }
 
-    public boolean userLogin(String  userAccount, String  userPassword){
-        UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
-                () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
+    public boolean userLogin(String  connectAccount, String  connectPassword){
+        UserInfo userInfo = userInfoRepository.findById(connectAccount).orElseThrow(
+                () -> new IllegalStateException("connectAccount:" + connectAccount + "不存在")
         );
-        if (  !Objects.equals(userInfo.getUserPassword(),encoder_md5.encodeMD5(userPassword))){
+        if (  !Objects.equals(userInfo.getconnectPassword(),encoder_md5.encodeMD5(connectPassword))){
             throw new IllegalStateException("密碼錯誤");
         }else{
             return true;
         }
     }
 
-    public boolean deleteUser(String  userAccount,String userPassword) throws IOException {
-        UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
-                () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
+    public boolean deleteUser(String  connectAccount,String connectPassword) throws IOException {
+        UserInfo userInfo = userInfoRepository.findById(connectAccount).orElseThrow(
+                () -> new IllegalStateException("connectAccount:" + connectAccount + "不存在")
         );
 
-        if ( !Objects.equals(userInfo.getUserPassword(),encoder_md5.encodeMD5(userPassword))){
+        if ( !Objects.equals(userInfo.getconnectPassword(),encoder_md5.encodeMD5(connectPassword))){
             throw new IllegalStateException("密碼錯誤");
 
         }else{
-            vaultService.deleteSecret(userInfo.getUserAddress());
-            userInfoRepository.deleteById(userAccount);
+            vaultService.deleteSecret(userInfo.getwalletAddress());
+            userInfoRepository.deleteById(connectAccount);
             return true;
         }
     }
 
     @Transactional
-    public void updatePassword(String userAccount,String originalUserPassword,String newUserPassword){
-        UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
-                () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
+    public void updatePassword(String connectAccount,String originalconnectPassword,String newconnectPassword){
+        UserInfo userInfo = userInfoRepository.findById(connectAccount).orElseThrow(
+                () -> new IllegalStateException("connectAccount:" + connectAccount + "不存在")
         );
 
         //新密碼不為空，不與先前密碼相同
-        if ( !Objects.equals(userInfo.getUserPassword(),encoder_md5.encodeMD5(originalUserPassword))){
+        if ( !Objects.equals(userInfo.getconnectPassword(),encoder_md5.encodeMD5(originalconnectPassword))){
             throw new IllegalStateException("密碼錯誤");
-        }else if (newUserPassword == null || newUserPassword.length() <= 0){
+        }else if (newconnectPassword == null || newconnectPassword.length() <= 0){
             throw new IllegalStateException("新密碼不得為空");
-        }else if (Objects.equals(userInfo.getUserPassword(),newUserPassword)){
+        }else if (Objects.equals(userInfo.getconnectPassword(),newconnectPassword)){
             throw new IllegalStateException("新密碼不得與舊密碼相同");
         }else {
-            userInfo.setUserPassword(encoder_md5.encodeMD5(newUserPassword));
+            userInfo.setconnectPassword(encoder_md5.encodeMD5(newconnectPassword));
             //紀錄修改時間
             Long datetime = System.currentTimeMillis();
             Timestamp timestamp = new Timestamp(datetime);
             userInfo.setUpdatedTime(timestamp);
         }
-//        if (Objects.equals(userInfo.getUserPassword(),originalUserPassword)
-//                && newUserPassword != null
-//                && newUserPassword.length() > 0
-//                && !Objects.equals(userInfo.getUserPassword(),newUserPassword)){
-//            userInfo.setUserPassword(newUserPassword);
+//        if (Objects.equals(userInfo.getconnectPassword(),originalconnectPassword)
+//                && newconnectPassword != null
+//                && newconnectPassword.length() > 0
+//                && !Objects.equals(userInfo.getconnectPassword(),newconnectPassword)){
+//            userInfo.setconnectPassword(newconnectPassword);
 //        }
     }
     @Transactional
-    public void updateAddress(String userAccount,String userAddress){
-        UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
-                () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
+    public void updateAddress(String connectAccount,String walletAddress){
+        UserInfo userInfo = userInfoRepository.findById(connectAccount).orElseThrow(
+                () -> new IllegalStateException("connectAccount:" + connectAccount + "不存在")
         );
 
-        if (userAddress == null || userAddress.length() <= 0){
+        if (walletAddress == null || walletAddress.length() <= 0){
             throw new IllegalStateException("Address不得為空");
         }else{
-            userInfo.setUserAddress(userAddress);
+            userInfo.setwalletAddress(walletAddress);
 
         }
     }
 
-    //個人資料update，沒修改就用原本的(serviceName,agenciesName,status,.....)
+    //個人資料update，沒修改就用原本的(serviceName,orgName,status,.....)
     @Transactional
-    public void updateInfo(String userAccount,String userName,String userEmail, String serviceName,String agenciesName,String status,String remark){
-        UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
-                () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
+    public void updateInfo(String connectAccount,String managerName,String managerEmail, String serviceName,String orgName,boolean status,String remark){
+        UserInfo userInfo = userInfoRepository.findById(connectAccount).orElseThrow(
+                () -> new IllegalStateException("connectAccount:" + connectAccount + "不存在")
         );
 
-        if (userName == null || userName.length() <= 0){
+        if (managerName == null || managerName.length() <= 0){
             throw new IllegalStateException("管理者不得為空");
-        }else if(userEmail == null || userEmail.length() <= 0){
+        }else if(managerEmail == null || managerEmail.length() <= 0){
             throw new IllegalStateException("信箱不得為空");
         }else if(serviceName == null || serviceName.length() <= 0){
             throw new IllegalStateException("服務名稱不得為空");
-        }else if(agenciesName == null || agenciesName.length() <= 0){
+        }else if(orgName == null || orgName.length() <= 0){
             throw new IllegalStateException("機構名稱不得為空");
-        }else if(status == null || status.length() <= 0){
-            throw new IllegalStateException("狀態");
         }else{
-            userInfo.setUserName(userName);
-            userInfo.setUserEmail(userEmail);
+            userInfo.setmanagerName(managerName);
+            userInfo.setmanagerEmail(managerEmail);
             userInfo.setServiceName(serviceName);
-            userInfo.setAgenciesName(agenciesName);
+            userInfo.setorgName(orgName);
             userInfo.setStatus(status);
             userInfo.setRemark(remark);
             //紀錄修改時間
@@ -178,29 +177,29 @@ public class UserInfoService {
 
 
     @Transactional
-    public void updateInfo(String userAccount,String userName,String userEmail, String serviceName,String agenciesName,String status,String remark,String userPassword){
-        UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
-                () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
+    public void updateInfo(String connectAccount,String managerName,String managerEmail, String serviceName,String orgName,boolean status,String remark,String connectPassword){
+        UserInfo userInfo = userInfoRepository.findById(connectAccount).orElseThrow(
+                () -> new IllegalStateException("connectAccount:" + connectAccount + "不存在")
         );
 
-        if (userName == null || userName.length() <= 0){
+        if (managerName == null || managerName.length() <= 0){
             throw new IllegalStateException("管理者不得為空");
-        }else if(userEmail == null || userEmail.length() <= 0){
+        }else if(managerEmail == null || managerEmail.length() <= 0){
             throw new IllegalStateException("信箱不得為空");
-        }else if(userPassword == null || userPassword.length() <= 0){
+        }else if(connectPassword == null || connectPassword.length() <= 0){
             throw new IllegalStateException("密碼不得為空");
         }else if(serviceName == null || serviceName.length() <= 0){
             throw new IllegalStateException("服務名稱不得為空");
-        }else if(agenciesName == null || agenciesName.length() <= 0){
+        }else if(orgName == null || orgName.length() <= 0){
             throw new IllegalStateException("機構名稱不得為空");
-        }else if(status == null || status.length() <= 0){
+        }else if(status != true || status != false){
             throw new IllegalStateException("狀態");
         }else{
             userInfo.setServiceName(serviceName);
-            userInfo.setAgenciesName(agenciesName);
+            userInfo.setorgName(orgName);
             userInfo.setStatus(status);
             userInfo.setRemark(remark);
-            userInfo.setUserPassword(encoder_md5.encodeMD5(userPassword));
+            userInfo.setconnectPassword(encoder_md5.encodeMD5(connectPassword));
             //紀錄修改時間
             Long datetime = System.currentTimeMillis();
             Timestamp timestamp = new Timestamp(datetime);
@@ -210,16 +209,16 @@ public class UserInfoService {
     }
 
     @Transactional
-    public String exchangeAddress(String userAccount,String userPassword){
-        UserInfo userInfo = userInfoRepository.findById(userAccount).orElseThrow(
-                () -> new IllegalStateException("userAccount:" + userAccount + "不存在")
+    public String exchangeAddress(String connectAccount,String connectPassword){
+        UserInfo userInfo = userInfoRepository.findById(connectAccount).orElseThrow(
+                () -> new IllegalStateException("connectAccount:" + connectAccount + "不存在")
         );
 
-        if ( !Objects.equals(userInfo.getUserPassword(),encoder_md5.encodeMD5(userPassword))){
+        if ( !Objects.equals(userInfo.getconnectPassword(),encoder_md5.encodeMD5(connectPassword))){
             throw new IllegalStateException("密碼錯誤");
 
         }else{
-            return userInfo.getUserAddress();
+            return userInfo.getwalletAddress();
         }
     }
 

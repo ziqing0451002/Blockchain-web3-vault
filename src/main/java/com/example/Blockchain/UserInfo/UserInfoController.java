@@ -33,9 +33,9 @@ public class UserInfoController {
     }
 
     @ApiOperation("取得單筆連線帳號")
-    @GetMapping(path = "getUserInfoByUserAccount/{userAccount}")
-    public UserInfo getUserInfoByUserAccount(@PathVariable("userAccount") String userAccount){
-        return userInfoService.getUserInfoByUserAccount(userAccount);
+    @GetMapping(path = "getUserInfoByConnectAccount/{connectAccount}")
+    public UserInfo getUserInfoByConnectAccount(@PathVariable("connectAccount") String connectAccount){
+        return userInfoService.getUserInfoByConnectAccount(connectAccount);
     }
 
     @ApiOperation("新增連線帳號")
@@ -45,54 +45,54 @@ public class UserInfoController {
     }
 
     @ApiOperation("刪除連線帳號")
-    @DeleteMapping(path = "deleteAccount/{userAccount}")
-    public boolean deleteUser(@PathVariable("userAccount") String userAccount,
-                          @RequestParam String userPassword
+    @DeleteMapping(path = "deleteAccount/{connectAccount}")
+    public boolean deleteUser(@PathVariable("connectAccount") String connectAccount,
+                          @RequestParam String connectPassword
     ) throws IOException {
-        return userInfoService.deleteUser(userAccount,userPassword);
+        return userInfoService.deleteUser(connectAccount,connectPassword);
     }
 
     @ApiOperation("修改連線帳號密碼")
-    @PutMapping(path = "/updatePassword/{userAccount}")
-    public void updatePassword(@PathVariable("userAccount") String userAccount,
-                                @RequestParam String originalUserPassword,
-                                @RequestParam String newUserPassword
+    @PutMapping(path = "/updatePassword/{connectAccount}")
+    public void updatePassword(@PathVariable("connectAccount") String connectAccount,
+                                @RequestParam String originalConnectPassword,
+                                @RequestParam String newConnectPassword
     ){
-        userInfoService.updatePassword(userAccount,originalUserPassword,newUserPassword);
+        userInfoService.updatePassword(connectAccount,originalConnectPassword,newConnectPassword);
 
     }
 
     @ApiOperation("修改連線帳號資訊")
-    @PutMapping(path = "/updateAccountInfo/{userAccount}")
-    public void updateInfo(@PathVariable("userAccount") String userAccount,
-                           @RequestParam String userName,
-                           @RequestParam String userEmail,
+    @PutMapping(path = "/updateAccountInfo/{connectAccount}")
+    public void updateInfo(@PathVariable("connectAccount") String connectAccount,
+                           @RequestParam String managerName,
+                           @RequestParam String managerEmail,
                            @RequestParam String serviceName,
-                           @RequestParam String agenciesName,
-                           @RequestParam String status,
+                           @RequestParam String orgName,
+                           @RequestParam boolean status,
                            @RequestParam String remark
     ){
-        userInfoService.updateInfo(userAccount,userName,userEmail,serviceName,agenciesName,status,remark);
+        userInfoService.updateInfo(connectAccount,managerName,managerEmail,serviceName,orgName,status,remark);
 
     }
-    @PutMapping(path = "/updateAccountInfoPWD/{userAccount}")
-    public void updateInfoPWD(@PathVariable("userAccount") String userAccount,
-                           @RequestParam String userName,
-                           @RequestParam String userEmail,
+    @PutMapping(path = "/updateAccountInfoPWD/{connectAccount}")
+    public void updateInfoPWD(@PathVariable("connectAccount") String connectAccount,
+                           @RequestParam String managerName,
+                           @RequestParam String managerEmail,
                            @RequestParam String serviceName,
-                           @RequestParam String agenciesName,
-                           @RequestParam String status,
+                           @RequestParam String orgName,
+                           @RequestParam boolean status,
                            @RequestParam String remark,
-                           @RequestParam String userPassword
+                           @RequestParam String connectPassword
     ){
-        userInfoService.updateInfo(userAccount,userName,userEmail,serviceName,agenciesName,status,remark,userPassword);
+        userInfoService.updateInfo(connectAccount,managerName,managerEmail,serviceName,orgName,status,remark,connectPassword);
 
     }
 
-    @GetMapping(path = "userLogin/{userAccount}")
-    public boolean userLogin(@PathVariable("userAccount") String userAccount,
-                             @RequestParam String userPassword
+    @GetMapping(path = "userLogin/{connectAccount}")
+    public boolean userLogin(@PathVariable("connectAccount") String connectAccount,
+                             @RequestParam String connectPassword
     ){
-        return userInfoService.userLogin(userAccount,userPassword);
+        return userInfoService.userLogin(connectAccount,connectPassword);
     }
 }
