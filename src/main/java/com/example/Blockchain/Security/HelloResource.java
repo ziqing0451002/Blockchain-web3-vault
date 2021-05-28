@@ -10,11 +10,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import com.example.Blockchain.UserInfo.UserInfoService;
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class HelloResource {
 
@@ -23,6 +22,9 @@ public class HelloResource {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Autowired
     private JwtUtil jwtTokenUtil;
@@ -39,19 +41,33 @@ public class HelloResource {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),authenticationRequest.getPassword())
-            );
-        }catch (BadCredentialsException e){
-            throw new Exception("帳號密碼錯誤",e);
+        System.out.println("可以呼叫");
+
+        boolean isLogin = userInfoService.userLogin(authenticationRequest.getUsername(),authenticationRequest.getPassword());
+        System.out.println(isLogin);
+//        if (isLogin){
+//            try {
+//                authenticationManager.authenticate(
+//                        new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),authenticationRequest.getPassword())
+//                );
+//            }catch (BadCredentialsException e){
+//                throw new Exception("帳號密碼錯誤",e);
+//            }
+//        }else {
+//            throw new Exception("帳號密碼錯誤");
+//        }
+        if (isLogin){
+            System.out.println("帳號驗證成功，即將產生JWT");
+
+            final UserDetails userDetails = userDetaillsService.loadUserByUsername(authenticationRequest.getUsername());
+
+            final String jwt = jwtTokenUtil.generateToken(userDetails);
+
+            return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        }else {
+            throw new Exception("帳號密碼錯誤");
         }
 
-        final UserDetails userDetails = userDetaillsService.loadUserByUsername(authenticationRequest.getUsername());
-
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
 
     }
 
