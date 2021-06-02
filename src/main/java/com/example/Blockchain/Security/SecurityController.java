@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.Blockchain.UserInfo.UserInfoService;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class HelloResource {
+public class SecurityController {
 
     @Autowired
     private MyUserDetaillsService userDetaillsService;
@@ -39,7 +39,7 @@ public class HelloResource {
 //        return "1";
 //    }
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = "api/account/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
         System.out.println("可以呼叫");
 
